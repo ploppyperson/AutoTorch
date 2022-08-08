@@ -1,0 +1,17 @@
+name: AutoTorch2
+version: ${project.version}
+description: Make torch placing less tedious
+main: uk.antiperson.autotorch.AutoTorch
+api-version: 1.16
+commands:
+  autotorch:
+    aliases: ["at"]
+  autotorchadmin:
+    aliases: ["ata"]
+permissions:
+  autotorch.auto:
+    description: Allows the use of auto torch placing
+  autotorch.admin:
+    description: Allows the player to check updates and to view information about the plugin
+  autotorch.*:
+    description: Allows use of everything in the plugin

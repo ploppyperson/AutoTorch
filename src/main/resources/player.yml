@@ -1,0 +1,11 @@
+# Where should torches be taken from?
+# Options: HAND, OFF_HAND, INVENTORY
+take-torches-from: HAND
+# How far should we check to place torches
+radius: 8
+# What is the minimum light level to place torches
+light-level: 3
+# The minimum y level where torches can be placed
+y-min: -100
+# The maximum y level where torches can be placed
+y-max: 150

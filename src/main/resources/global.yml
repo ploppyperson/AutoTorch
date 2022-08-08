@@ -1,0 +1,9 @@
+# How often should we check that players can place torches?
+task-interval: 50
+# Block types which torches cannot be placed upon
+block-type-blacklist: []
+# Worlds which torches should not be placed in
+world-blacklist: []
+# Whether torches should be taken from the inventory of players
+torches-from-inventory: true
+
