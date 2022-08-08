@@ -1,5 +1,6 @@
 package uk.antiperson.autotorch;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,6 +44,7 @@ public final class AutoTorch extends JavaPlugin {
         new PlaceTask(this).runTaskTimer(this, 5, getGlobalConfig().getTaskInterval());
         getCommand("autotorch").setExecutor(new GuiCommand(this));
         getCommand("autotorchadmin").setExecutor(new AdminCommand(this));
+        new Metrics(this, 3186);
     }
 
     @Override
