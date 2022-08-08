@@ -21,7 +21,7 @@ public class AdminCommand implements CommandExecutor {
         }
         sender.sendMessage("AutoTorch v" + autoTorch.getDescription().getVersion() + " by antiPerson");
         sender.sendMessage("Discord: https://discord.gg/GadyA9j");
-        sender.sendMessage("Bugs? Report on GitHub: https://github.com/Nathat23/AutoTorch2");
+        sender.sendMessage("Bugs? Report on GitHub: https://github.com/Nathat23/AutoTorch");
         return false;
     }
 }
