@@ -10,6 +10,7 @@ public class Gui {
     private Player player;
     private Map<Integer, GuiPage> guiPageMap;
     private int showingPage;
+    private boolean pageChanged;
 
     public Gui(Player player) {
         this.player = player;
@@ -34,7 +35,16 @@ public class Gui {
 
     public void changePage(int pageId) {
         showingPage = pageId;
+        setPageChanged(true);
         show();
+    }
+
+    public boolean isPageChanged() {
+        return pageChanged;
+    }
+
+    public void setPageChanged(boolean pageChanged) {
+        this.pageChanged = pageChanged;
     }
 
     public Player getPlayer() {

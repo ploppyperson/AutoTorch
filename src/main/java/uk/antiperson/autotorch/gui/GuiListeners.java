@@ -48,7 +48,8 @@ public class GuiListeners implements Listener {
         if (gui == null) {
             return;
         }
-        if (event.getReason() == InventoryCloseEvent.Reason.OPEN_NEW) {
+        if (gui.isPageChanged()) {
+            gui.setPageChanged(false);
             return;
         }
         guiManager.stopWatching(player);
