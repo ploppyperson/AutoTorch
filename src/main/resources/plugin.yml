@@ -1,4 +1,4 @@
-name: AutoTorch2
+name: AutoTorch
 version: ${project.version}
 description: Make torch placing less tedious
 main: uk.antiperson.autotorch.AutoTorch
