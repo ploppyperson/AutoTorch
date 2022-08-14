@@ -5,6 +5,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -27,6 +28,21 @@ public class GuiItemStack {
 
     public GuiItemStack(GuiItemStack itemStack) {
         this(itemStack.getBukkit().clone());
+    }
+
+    public GuiItemStack replace(String itemToReplace, String replacement) {
+        GuiItemStack guiItemStack1 = new GuiItemStack(this);
+        guiItemStack1.setOnClick(getOnClick());
+        ItemMeta itemMeta = guiItemStack1.getBukkit().getItemMeta();
+        List<String> lore = itemMeta.getLore() == null ? new ArrayList<>() : itemMeta.getLore();
+        for (int i = 0; i < lore.size(); i++) {
+            String atIndex = lore.get(i);
+            atIndex = atIndex.replaceAll(itemToReplace, ChatColor.GRAY + replacement);
+            lore.set(i, atIndex);
+        }
+        itemMeta.setLore(lore);
+        guiItemStack1.getBukkit().setItemMeta(itemMeta);
+        return guiItemStack1;
     }
 
     public ItemStack getBukkit() {

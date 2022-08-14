@@ -20,7 +20,7 @@ public final class AutoTorch extends JavaPlugin {
     private WorldGuardHandler worldGuardHandler;
     private GuiManager guiManager;
 
-    public static final List<String> DEFAULT_LORE = Arrays.asList(ChatColor.WHITE + "Left click = +1", ChatColor.WHITE +
+    public static final List<String> DEFAULT_LORE = Arrays.asList("", ChatColor.WHITE + "Left click = +1", ChatColor.WHITE +
             "Right click = -1",ChatColor.WHITE + "Shift-Left click = +10", ChatColor.WHITE + "Shift-Right click = -10");
 
     @Override

@@ -1,6 +1,5 @@
 package uk.antiperson.autotorch.gui;
 
-import org.bukkit.ChatColor;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import uk.antiperson.autotorch.AutoTorch;
@@ -52,23 +51,21 @@ public class IntegerGuiItem extends GuiItem {
         if (!isUpdated() && currentItem != null) {
             return currentItem;
         }
-        GuiItemStack temp = currentItem;
-        currentItem = new GuiItemStack(super.getItemStack());
-        if (temp != null) {
-            currentItem.setOnClick(temp.getOnClick());
-        }
-        ItemMeta itemMeta = currentItem.getBukkit().getItemMeta();
-        List<String> lore = itemMeta.getLore() == null ? new ArrayList<>() : itemMeta.getLore();
-        lore.add("");
-        lore.addAll(AutoTorch.DEFAULT_LORE);
-        for (int i = 0; i < lore.size(); i++) {
-            String atIndex = lore.get(i);
-            atIndex = atIndex.replaceAll("%size%", ChatColor.GRAY + "" + getValue());
-            lore.set(i, atIndex);
-        }
-        itemMeta.setLore(lore);
-        currentItem.getBukkit().setItemMeta(itemMeta);
+        currentItem = super.getItemStack().replace("%size%", getValue() + "");
         return currentItem;
+    }
+
+    @Override
+    public void setItemStack(GuiItemStack itemStack) {
+        ItemMeta itemMeta = itemStack.getBukkit().getItemMeta();
+        List<String> lore = itemMeta.getLore();
+        if (lore == null) {
+            lore = new ArrayList<>();
+        }
+        lore.addAll(AutoTorch.DEFAULT_LORE);
+        itemMeta.setLore(lore);
+        itemStack.getBukkit().setItemMeta(itemMeta);
+        super.setItemStack(itemStack);
     }
 
     public int getValue() {
