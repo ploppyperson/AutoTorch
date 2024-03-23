@@ -37,6 +37,7 @@ public final class AutoTorch extends JavaPlugin {
         } catch (IOException e) {
             getLogger().info("Error occurred while loading config.");
         }
+        getServer().getPluginManager().registerEvents(new QuitListener(this), this);
         new PlaceTask(this).runTaskTimer(this, 5, getGlobalConfig().getTaskInterval());
         getCommand("autotorch").setExecutor(new GuiCommand(this));
         getCommand("autotorchadmin").setExecutor(new AdminCommand(this));
@@ -46,7 +47,12 @@ public final class AutoTorch extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        Bukkit.getOnlinePlayers().forEach(player -> getGuiManager().stopWatching(player));
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            getGuiManager().stopWatching(player);
+            TorchPlacer placer = getPlacerManager().getTorchPlacer(player);
+            if (placer == null) return;
+            getPlacerManager().remove(placer);
+        });
     }
 
     public PlacerManager getPlacerManager() {

@@ -60,7 +60,7 @@ public abstract class Configuration {
         Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 
-    void save() throws IOException {
+    public void save() throws IOException {
         getFileConfiguration().save(file);
     }
 
