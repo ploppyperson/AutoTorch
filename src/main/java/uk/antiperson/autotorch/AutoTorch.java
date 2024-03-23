@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.antiperson.autotorch.config.GlobalConfig;
-import uk.antiperson.autotorch.config.PlayerConfig;
 import uk.antiperson.autotorch.gui.GuiManager;
 
 import java.io.IOException;
@@ -16,7 +15,6 @@ public final class AutoTorch extends JavaPlugin {
 
     private PlacerManager placerManager;
     private GlobalConfig globalConfig;
-    private PlayerConfig playerConfig;
     private WorldGuardHandler worldGuardHandler;
     private GuiManager guiManager;
 
@@ -29,7 +27,6 @@ public final class AutoTorch extends JavaPlugin {
         getLogger().info("AutoTorch v" + getDescription().getVersion() + " by antiPerson");
         placerManager = new PlacerManager(this);
         globalConfig = new GlobalConfig(this);
-        playerConfig = new PlayerConfig(this);
         guiManager = new GuiManager(this);
         guiManager.init();
         if (getServer().getPluginManager().getPlugin("WorldGuard") != null) {
@@ -37,7 +34,6 @@ public final class AutoTorch extends JavaPlugin {
         }
         try {
             globalConfig.init();
-            playerConfig.init();
         } catch (IOException e) {
             getLogger().info("Error occurred while loading config.");
         }
@@ -63,10 +59,6 @@ public final class AutoTorch extends JavaPlugin {
 
     public WorldGuardHandler getWorldGuardHandler() {
         return worldGuardHandler;
-    }
-
-    public PlayerConfig getPlayerConfig() {
-        return playerConfig;
     }
 
     public GuiManager getGuiManager() {

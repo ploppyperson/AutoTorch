@@ -36,24 +36,32 @@ public abstract class Configuration {
         return file;
     }
 
-    public void init() throws IOException {
+    void init(boolean fromJar) throws IOException {
         if (!file.exists()) {
-            copyConfig();
+            createFile(fromJar);
             autoTorch.getLogger().info("Created config file " + file.getName());
         }
         this.fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
-    private void copyConfig() throws IOException {
-        InputStream inputStream = autoTorch.getResource(file.getName());
-        if (inputStream == null) {
-            throw new RuntimeException("Cannot load " + getFile().getName() + " in jar");
-        }
+    void createFile(boolean fromJar) throws IOException {
         File parentFile = file.getParentFile();
         if (!parentFile.exists()) {
             Files.createDirectories(parentFile.toPath());
         }
+        if (!fromJar) {
+            Files.createFile(file.toPath());
+            return;
+        }
+        InputStream inputStream = autoTorch.getResource(file.getName());
+        if (inputStream == null) {
+            throw new RuntimeException("Cannot load " + getFile().getName() + " in jar");
+        }
         Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    void save() throws IOException {
+        getFileConfiguration().save(file);
     }
 
     <T extends Enum<T>> void addToEnumRegistry(String path, Class<T> clazz) {
@@ -63,4 +71,9 @@ public abstract class Configuration {
     public Class<? extends Enum<?>> getFromEnumRegistry(String path) {
         return enumRegistry.get(path);
     }
+
+    public void init() throws IOException {
+        throw new RuntimeException("This should be overridden!");
+    }
+
 }

@@ -1,3 +1,5 @@
+# Are torches being placed
+placing-enabled: false
 # Where should torches be taken from?
 # Options: HAND, OFF_HAND, INVENTORY
 take-torches-from: HAND

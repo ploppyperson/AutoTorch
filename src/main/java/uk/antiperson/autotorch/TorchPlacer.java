@@ -21,8 +21,6 @@ public class TorchPlacer {
     private final Player player;
     private final AutoTorch autoTorch;
     private PlayerConfig playerConfig;
-    private boolean enabled;
-
 
     public TorchPlacer(AutoTorch autoTorch, Player player) {
         this.autoTorch = autoTorch;
@@ -31,7 +29,7 @@ public class TorchPlacer {
 
     public PlayerConfig getPlayerConfig() {
         if (playerConfig == null) {
-            playerConfig = new PlayerConfig(autoTorch);
+            playerConfig = new PlayerConfig(autoTorch, player);
             try {
                 playerConfig.init();
             } catch (IOException e) {
@@ -42,11 +40,11 @@ public class TorchPlacer {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return getPlayerConfig().isEnabled();
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        getPlayerConfig().setEnabled(enabled);
     }
 
     public void placeTorch() {
@@ -101,9 +99,9 @@ public class TorchPlacer {
             if (torchBlock.getLightLevel() > getPlayerConfig().getMinLightLevel()) {
                 continue;
             }
-            if (autoTorch.getWorldGuardHandler() != null && !autoTorch.getWorldGuardHandler().canPlaceTorch(getPlayer(), torchBlock)){
-                continue;
-            }
+            //if (autoTorch.getWorldGuardHandler() != null && !autoTorch.getWorldGuardHandler().canPlaceTorch(getPlayer(), torchBlock)){
+            //    continue;
+            //}
             if (setTorch(torchBlock)) {
                 return;
             }
