@@ -23,7 +23,6 @@ public class PlayerConfig extends Configuration {
         if (getFileConfiguration().getKeys(true).size() == 0) {
             for (String path : defaults.getFileConfiguration().getKeys(true)) {
                 getFileConfiguration().set(path, defaults.getFileConfiguration().get(path));
-                getFileConfiguration().setInlineComments(path, defaults.getFileConfiguration().getInlineComments(path));
             }
         }
         getFileConfiguration().save(getFile());
