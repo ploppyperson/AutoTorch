@@ -18,6 +18,20 @@ import java.io.IOException;
 
 public class TorchPlacer {
 
+    public static final boolean BLOCKDATA_HAS_STURDY;
+
+    static {
+        boolean HAS_STURDY1;
+        try {
+            Class.forName("org.bukkit.block.data.BlockData");
+            org.bukkit.block.data.BlockData.class.getMethod("isFaceSturdy", BlockFace.class, BlockSupport.class);
+            HAS_STURDY1 = true;
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
+            HAS_STURDY1 = false;
+        }
+        BLOCKDATA_HAS_STURDY = HAS_STURDY1;
+    }
+
     private final Player player;
     private final AutoTorch autoTorch;
     private PlayerConfig playerConfig;
@@ -201,7 +215,7 @@ public class TorchPlacer {
         if (autoTorch.getGlobalConfig().isBlockTypeBlacklisted(block)) {
             return false;
         }
-        if (Bukkit.getVersion().contains("1.19")) {
+        if (BLOCKDATA_HAS_STURDY) {
             if (block.getBlockData().isFaceSturdy(BlockFace.UP, BlockSupport.FULL)) {
                 return true;
             }
