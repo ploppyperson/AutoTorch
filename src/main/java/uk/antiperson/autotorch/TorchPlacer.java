@@ -80,7 +80,7 @@ public class TorchPlacer {
             }
 
             Block supporting = torchLoc.clone().subtract(0, 1, 0).getBlock();
-            BlockFace attachWall = null;
+            BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
                 Location proposedTorchLocation = torchLoc.clone().add(0, 1, 0);
                 Block adjacent = null;
@@ -106,7 +106,7 @@ public class TorchPlacer {
             if (!(torchLoc.getY() >= getPlayerConfig().getYMin() && torchLoc.getY() <= getPlayerConfig().getYMax())) {
                 continue;
             }
-            if (!checkSupportingBlock(supporting)) {
+            if (!checkSupportingBlock(supporting, attachWall)) {
                 continue;
             }
             if (torchBlock.getLightLevel() > getPlayerConfig().getMinLightLevel()) {
@@ -116,7 +116,7 @@ public class TorchPlacer {
             //    continue;
             //}
             if (setTorch(torchBlock)) {
-                if (attachWall != null) {
+                if (attachWall != BlockFace.UP) {
                     BlockState blockState = torchBlock.getState();
                     Directional directional = (Directional) Material.WALL_TORCH.createBlockData();
                     directional.setFacing(attachWall.getOppositeFace());
@@ -203,12 +203,12 @@ public class TorchPlacer {
         return 0;
     }
 
-    public boolean checkSupportingBlock(Block block){
+    public boolean checkSupportingBlock(Block block, BlockFace face){
         if (autoTorch.getGlobalConfig().isBlockTypeBlacklisted(block)) {
             return false;
         }
         if (BLOCKDATA_HAS_STURDY) {
-            if (block.getBlockData().isFaceSturdy(BlockFace.UP, BlockSupport.FULL)) {
+            if (block.getBlockData().isFaceSturdy(face, BlockSupport.FULL)) {
                 return true;
             }
         }
