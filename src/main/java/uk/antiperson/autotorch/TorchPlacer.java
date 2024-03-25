@@ -94,7 +94,6 @@ public class TorchPlacer {
                     attachWall = blockFace;
                 }
                 if (adjacent != null) {
-                    System.out.println(attachWall.toString());
                     supporting = adjacent;
                     torchLoc = proposedTorchLocation;
                 }
@@ -117,21 +116,14 @@ public class TorchPlacer {
             //    continue;
             //}
             if (setTorch(torchBlock)) {
-                return;
-            }
-            if (attachWall != null) {
-                BlockFace finalAttachWall = attachWall;
-                Bukkit.getScheduler().runTaskLater(autoTorch, () -> {
+                if (attachWall != null) {
                     BlockState blockState = torchBlock.getState();
-                    if (!(blockState instanceof Directional)) {
-                        System.out.println("not directional");
-                        return;
-                    }
-                    Directional directional = (Directional) blockState.getBlockData();
-                    directional.setFacing(finalAttachWall);
+                    Directional directional = (Directional) Material.WALL_TORCH.createBlockData();
+                    directional.setFacing(attachWall.getOppositeFace());
                     blockState.setBlockData(directional);
                     blockState.update(true);
-                }, 1);
+                }
+                return;
             }
         }
     }
