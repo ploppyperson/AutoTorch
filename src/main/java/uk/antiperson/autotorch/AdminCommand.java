@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AdminCommand implements CommandExecutor {
 
-    private AutoTorch autoTorch;
+    private final AutoTorch autoTorch;
 
     public AdminCommand(AutoTorch autoTorch) {
         this.autoTorch = autoTorch;

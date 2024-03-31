@@ -11,7 +11,7 @@ public class GuiPage {
 
     private final Inventory inventory;
     private final Player player;
-    private Map<Integer, GuiItem> map;
+    private final Map<Integer, GuiItem> map;
 
     public GuiPage(Player player, int rows) {
         this.player = player;

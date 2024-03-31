@@ -17,8 +17,8 @@ import java.util.Set;
 
 public class ConfigGui {
 
-    private Configuration configuration;
-    private Configuration translation;
+    private final Configuration configuration;
+    private final Configuration translation;
 
     public ConfigGui(Configuration configuration, Configuration translation) {
         this.configuration = configuration;

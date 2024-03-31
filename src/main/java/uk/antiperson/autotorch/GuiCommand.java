@@ -1,21 +1,13 @@
 package uk.antiperson.autotorch;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import uk.antiperson.autotorch.config.PlayerTranslateConfig;
-import uk.antiperson.autotorch.gui.BooleanGuiItem;
-import uk.antiperson.autotorch.gui.ChangePageItem;
 import uk.antiperson.autotorch.gui.Gui;
-import uk.antiperson.autotorch.gui.GuiItemStack;
-import uk.antiperson.autotorch.gui.GuiPage;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class GuiCommand implements CommandExecutor {
 

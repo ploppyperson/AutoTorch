@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class GuiManager {
 
-    private Map<UUID, Gui> map;
-    private AutoTorch autoTorch;
+    private final Map<UUID, Gui> map;
+    private final AutoTorch autoTorch;
 
     public GuiManager(AutoTorch autoTorch) {
         this.autoTorch = autoTorch;

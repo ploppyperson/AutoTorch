@@ -17,7 +17,7 @@ public abstract class Configuration {
     private FileConfiguration fileConfiguration;
     private final File file;
     private final AutoTorch autoTorch;
-    private Map<String, Class<? extends Enum<?>>> enumRegistry;
+    private final Map<String, Class<? extends Enum<?>>> enumRegistry;
 
     public Configuration(AutoTorch autoTorch, String fileName) {
         this.autoTorch = autoTorch;

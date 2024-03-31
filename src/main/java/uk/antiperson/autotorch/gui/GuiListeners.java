@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 public class GuiListeners implements Listener {
 
-    private GuiManager guiManager;
+    private final GuiManager guiManager;
 
     public GuiListeners(GuiManager guiManager) {
         this.guiManager = guiManager;

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class Gui {
 
-    private Player player;
-    private Map<Integer, GuiPage> guiPageMap;
+    private final Player player;
+    private final Map<Integer, GuiPage> guiPageMap;
     private int showingPage;
     private boolean pageChanged;
 
