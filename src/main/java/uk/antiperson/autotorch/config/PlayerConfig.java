@@ -1,18 +1,31 @@
 package uk.antiperson.autotorch.config;
 
+import org.bukkit.entity.Player;
 import uk.antiperson.autotorch.AutoTorch;
 
+import java.io.File;
 import java.io.IOException;
 
 public class PlayerConfig extends Configuration {
 
-    public PlayerConfig(AutoTorch autoTorch) {
-        super(autoTorch, "player.yml");
+    private final AutoTorch autoTorch;
+
+    public PlayerConfig(AutoTorch autoTorch, Player player) {
+        super(autoTorch, "player-data" + File.separator + player.getUniqueId() + ".yml");
+        this.autoTorch = autoTorch;
     }
 
     @Override
     public void init() throws IOException {
-        super.init();
+        Configuration defaults = new PlayerDefaultConfig(autoTorch);
+        defaults.init(true);
+        init(false);
+        if (getFileConfiguration().getKeys(true).size() == 0) {
+            for (String path : defaults.getFileConfiguration().getKeys(true)) {
+                getFileConfiguration().set(path, defaults.getFileConfiguration().get(path));
+            }
+        }
+        getFileConfiguration().save(getFile());
         addToEnumRegistry("take-torches-from", TorchLocation.class);
     }
 
@@ -38,6 +51,14 @@ public class PlayerConfig extends Configuration {
 
     public boolean isAttachToWalls() {
         return getFileConfiguration().getBoolean("attach-to-walls");
+    }
+
+    public boolean isEnabled() {
+        return getFileConfiguration().getBoolean("placing-enabled");
+    }
+
+    public void setEnabled(boolean enabled) {
+        getFileConfiguration().set("placing-enabled", enabled);
     }
 
     public enum TorchLocation {

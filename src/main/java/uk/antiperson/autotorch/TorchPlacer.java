@@ -18,11 +18,23 @@ import java.io.IOException;
 
 public class TorchPlacer {
 
+    public static final boolean BLOCKDATA_HAS_STURDY;
+
+    static {
+        boolean HAS_STURDY1;
+        try {
+            Class.forName("org.bukkit.block.data.BlockData");
+            org.bukkit.block.data.BlockData.class.getMethod("isFaceSturdy", BlockFace.class, BlockSupport.class);
+            HAS_STURDY1 = true;
+        } catch (ClassNotFoundException | NoSuchMethodException e) {
+            HAS_STURDY1 = false;
+        }
+        BLOCKDATA_HAS_STURDY = HAS_STURDY1;
+    }
+
     private final Player player;
     private final AutoTorch autoTorch;
     private PlayerConfig playerConfig;
-    private boolean enabled;
-
 
     public TorchPlacer(AutoTorch autoTorch, Player player) {
         this.autoTorch = autoTorch;
@@ -31,7 +43,7 @@ public class TorchPlacer {
 
     public PlayerConfig getPlayerConfig() {
         if (playerConfig == null) {
-            playerConfig = new PlayerConfig(autoTorch);
+            playerConfig = new PlayerConfig(autoTorch, player);
             try {
                 playerConfig.init();
             } catch (IOException e) {
@@ -42,11 +54,11 @@ public class TorchPlacer {
     }
 
     public boolean isEnabled() {
-        return enabled;
+        return getPlayerConfig().isEnabled();
     }
 
     public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+        getPlayerConfig().setEnabled(enabled);
     }
 
     public void placeTorch() {
@@ -68,7 +80,7 @@ public class TorchPlacer {
             }
 
             Block supporting = torchLoc.clone().subtract(0, 1, 0).getBlock();
-            BlockFace attachWall = null;
+            BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
                 Location proposedTorchLocation = torchLoc.clone().add(0, 1, 0);
                 Block adjacent = null;
@@ -82,7 +94,6 @@ public class TorchPlacer {
                     attachWall = blockFace;
                 }
                 if (adjacent != null) {
-                    System.out.println(attachWall.toString());
                     supporting = adjacent;
                     torchLoc = proposedTorchLocation;
                 }
@@ -95,7 +106,7 @@ public class TorchPlacer {
             if (!(torchLoc.getY() >= getPlayerConfig().getYMin() && torchLoc.getY() <= getPlayerConfig().getYMax())) {
                 continue;
             }
-            if (!checkSupportingBlock(supporting)) {
+            if (!checkSupportingBlock(supporting, attachWall)) {
                 continue;
             }
             if (torchBlock.getLightLevel() > getPlayerConfig().getMinLightLevel()) {
@@ -105,21 +116,14 @@ public class TorchPlacer {
                 continue;
             }
             if (setTorch(torchBlock)) {
-                return;
-            }
-            if (attachWall != null) {
-                BlockFace finalAttachWall = attachWall;
-                Bukkit.getScheduler().runTaskLater(autoTorch, () -> {
+                if (attachWall != BlockFace.UP) {
                     BlockState blockState = torchBlock.getState();
-                    if (!(blockState instanceof Directional)) {
-                        System.out.println("not directional");
-                        return;
-                    }
-                    Directional directional = (Directional) blockState.getBlockData();
-                    directional.setFacing(finalAttachWall);
+                    Directional directional = (Directional) Material.WALL_TORCH.createBlockData();
+                    directional.setFacing(attachWall.getOppositeFace());
                     blockState.setBlockData(directional);
                     blockState.update(true);
-                }, 1);
+                }
+                return;
             }
         }
     }
@@ -199,12 +203,12 @@ public class TorchPlacer {
         return 0;
     }
 
-    public boolean checkSupportingBlock(Block block){
+    public boolean checkSupportingBlock(Block block, BlockFace face){
         if (autoTorch.getGlobalConfig().isBlockTypeBlacklisted(block)) {
             return false;
         }
-        if (Bukkit.getVersion().contains("1.19")) {
-            if (block.getBlockData().isFaceSturdy(BlockFace.UP, BlockSupport.FULL)) {
+        if (BLOCKDATA_HAS_STURDY) {
+            if (block.getBlockData().isFaceSturdy(face, BlockSupport.FULL)) {
                 return true;
             }
         }

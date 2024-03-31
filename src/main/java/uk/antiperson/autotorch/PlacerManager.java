@@ -2,6 +2,7 @@ package uk.antiperson.autotorch;
 
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -26,6 +27,15 @@ public class PlacerManager {
 
     public void addTorchPlacer(TorchPlacer torchPlacer) {
         placer.put(torchPlacer.getPlayer().getUniqueId(), torchPlacer);
+    }
+
+    public void remove(TorchPlacer torchPlacer) {
+        TorchPlacer tp = placer.remove(torchPlacer.getPlayer().getUniqueId());
+        try {
+            tp.getPlayerConfig().save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

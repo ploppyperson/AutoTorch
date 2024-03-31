@@ -1,6 +1,10 @@
+# Are torches being placed
+placing-enabled: false
 # Where should torches be taken from?
 # Options: HAND, OFF_HAND, INVENTORY
 take-torches-from: HAND
+# Attach torch to wall rather than placing on the ground
+attach-to-walls: true
 # How far should we check to place torches
 radius: 8
 # What is the minimum light level to place torches

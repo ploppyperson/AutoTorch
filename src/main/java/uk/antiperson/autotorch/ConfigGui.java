@@ -17,10 +17,12 @@ import java.util.Set;
 
 public class ConfigGui {
 
-    private Configuration configuration;
+    private final Configuration configuration;
+    private final Configuration translation;
 
-    public ConfigGui(Configuration configuration) {
+    public ConfigGui(Configuration configuration, Configuration translation) {
         this.configuration = configuration;
+        this.translation = translation;
     }
 
     public GuiPage createPage(Player player) {
@@ -41,9 +43,9 @@ public class ConfigGui {
         Object object = configuration.getFileConfiguration().get(key);
         if (object instanceof Boolean) {
             BooleanGuiItem booleanGuiItem = new BooleanGuiItem();
-            GuiItemStack enabled = new GuiItemStack(new ItemStack(Material.GREEN_WOOL), key, Arrays.asList("Enabled"));
+            GuiItemStack enabled = new GuiItemStack(new ItemStack(Material.GREEN_WOOL), translation.getFileConfiguration().getString(key), Arrays.asList(ChatColor.GREEN + "Enabled", "", ChatColor.WHITE + "Click to disable"));
             enabled.setOnClick(click -> configuration.getFileConfiguration().set(key, false));
-            GuiItemStack disabled = new GuiItemStack(new ItemStack(Material.RED_WOOL), key, Arrays.asList("Disabled"));
+            GuiItemStack disabled = new GuiItemStack(new ItemStack(Material.RED_WOOL), translation.getFileConfiguration().getString(key), Arrays.asList(ChatColor.RED + "Disabled", "", ChatColor.WHITE + "Click to enable"));
             disabled.setOnClick(click -> configuration.getFileConfiguration().set(key, true));
             booleanGuiItem.setTrueItem(enabled);
             booleanGuiItem.setFalseItem(disabled);
@@ -52,7 +54,7 @@ public class ConfigGui {
         }
         if (object instanceof Integer) {
             IntegerGuiItem integerGuiItem = new IntegerGuiItem(Integer.MIN_VALUE, Integer.MAX_VALUE, configuration.getFileConfiguration().getInt(key));
-            integerGuiItem.setItemStack(new GuiItemStack(new ItemStack(Material.NETHERITE_PICKAXE), key, Arrays.asList("%size%")));
+            integerGuiItem.setItemStack(new GuiItemStack(new ItemStack(Material.NETHERITE_PICKAXE), translation.getFileConfiguration().getString(key), Arrays.asList("%size%")));
             integerGuiItem.getItemStack().setOnClick(click -> configuration.getFileConfiguration().set(key, integerGuiItem.getValue()));
             return integerGuiItem;
         }
@@ -66,7 +68,7 @@ public class ConfigGui {
                 }
             }
             EnumGuiItem enumGuiItem = new EnumGuiItem(anEnum.getEnumConstants());
-            GuiItemStack guiItem = new GuiItemStack(new ItemStack(Material.CRAFTING_TABLE), key, Arrays.asList("%enum%", "", ChatColor.WHITE + "Left/Right click to shift"));
+            GuiItemStack guiItem = new GuiItemStack(new ItemStack(Material.CRAFTING_TABLE), translation.getFileConfiguration().getString(key), Arrays.asList("%enum%", "", ChatColor.WHITE + "Click to shift"));
             guiItem.setOnClick(click -> configuration.getFileConfiguration().set(key, enumGuiItem.getValue()));
             enumGuiItem.populate(guiItem);
             enumGuiItem.setShowing(current);
