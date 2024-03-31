@@ -112,9 +112,9 @@ public class TorchPlacer {
             if (torchBlock.getLightLevel() > getPlayerConfig().getMinLightLevel()) {
                 continue;
             }
-            //if (autoTorch.getWorldGuardHandler() != null && !autoTorch.getWorldGuardHandler().canPlaceTorch(getPlayer(), torchBlock)){
-            //    continue;
-            //}
+            if (autoTorch.getWorldGuardHandler() != null && !autoTorch.getWorldGuardHandler().canPlaceTorch(getPlayer(), torchBlock)){
+                continue;
+            }
             if (setTorch(torchBlock)) {
                 if (attachWall != BlockFace.UP) {
                     BlockState blockState = torchBlock.getState();
