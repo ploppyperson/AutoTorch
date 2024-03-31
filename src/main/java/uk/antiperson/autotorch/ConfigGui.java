@@ -43,9 +43,9 @@ public class ConfigGui {
         Object object = configuration.getFileConfiguration().get(key);
         if (object instanceof Boolean) {
             BooleanGuiItem booleanGuiItem = new BooleanGuiItem();
-            GuiItemStack enabled = new GuiItemStack(new ItemStack(Material.GREEN_WOOL), translation.getFileConfiguration().getString(key), Arrays.asList("Enabled"));
+            GuiItemStack enabled = new GuiItemStack(new ItemStack(Material.GREEN_WOOL), translation.getFileConfiguration().getString(key), Arrays.asList(ChatColor.GREEN + "Enabled", "", ChatColor.WHITE + "Click to disable"));
             enabled.setOnClick(click -> configuration.getFileConfiguration().set(key, false));
-            GuiItemStack disabled = new GuiItemStack(new ItemStack(Material.RED_WOOL), translation.getFileConfiguration().getString(key), Arrays.asList("Disabled"));
+            GuiItemStack disabled = new GuiItemStack(new ItemStack(Material.RED_WOOL), translation.getFileConfiguration().getString(key), Arrays.asList(ChatColor.RED + "Disabled", "", ChatColor.WHITE + "Click to enable"));
             disabled.setOnClick(click -> configuration.getFileConfiguration().set(key, true));
             booleanGuiItem.setTrueItem(enabled);
             booleanGuiItem.setFalseItem(disabled);
@@ -68,7 +68,7 @@ public class ConfigGui {
                 }
             }
             EnumGuiItem enumGuiItem = new EnumGuiItem(anEnum.getEnumConstants());
-            GuiItemStack guiItem = new GuiItemStack(new ItemStack(Material.CRAFTING_TABLE), translation.getFileConfiguration().getString(key), Arrays.asList("%enum%", "", ChatColor.WHITE + "Left/Right click to shift"));
+            GuiItemStack guiItem = new GuiItemStack(new ItemStack(Material.CRAFTING_TABLE), translation.getFileConfiguration().getString(key), Arrays.asList("%enum%", "", ChatColor.WHITE + "Click to shift"));
             guiItem.setOnClick(click -> configuration.getFileConfiguration().set(key, enumGuiItem.getValue()));
             enumGuiItem.populate(guiItem);
             enumGuiItem.setShowing(current);
