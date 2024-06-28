@@ -69,7 +69,7 @@ public class ConfigGui {
             }
             EnumGuiItem enumGuiItem = new EnumGuiItem(anEnum.getEnumConstants());
             GuiItemStack guiItem = new GuiItemStack(new ItemStack(Material.CRAFTING_TABLE), translation.getFileConfiguration().getString(key), Arrays.asList("%enum%", "", ChatColor.WHITE + "Click to shift"));
-            guiItem.setOnClick(click -> configuration.getFileConfiguration().set(key, enumGuiItem.getValue()));
+            guiItem.setOnClick(click -> configuration.getFileConfiguration().set(key, enumGuiItem.getValue().toString()));
             enumGuiItem.populate(guiItem);
             enumGuiItem.setShowing(current);
             return enumGuiItem;
