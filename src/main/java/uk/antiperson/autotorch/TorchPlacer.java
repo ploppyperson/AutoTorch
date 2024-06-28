@@ -93,7 +93,6 @@ public class TorchPlacer {
                     if (blockFace == getPlayer().getFacing().getOppositeFace()) continue;
                     Block relative = proposedTorchLocation.getBlock().getRelative(blockFace);
                     if (!relative.isSolid()) continue;
-                    relative.setType(Material.BEDROCK);
                     supporting = relative;
                     torchLoc = proposedTorchLocation;
                     attachWall = blockFace.getOppositeFace();
