@@ -81,7 +81,6 @@ public class TorchPlacer {
             BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
                 Location proposedTorchLocation = torchLoc.add(0, 1, 0);
-                autoTorch.getLogger().info(getPlayer().getFacing().toString());
                 int initial = getPlayer().getFacing().ordinal();
                 int counter = initial + 1 == 4 ? 0 : initial + 1;
                 while (initial != counter) {
