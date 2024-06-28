@@ -1,6 +1,5 @@
 package uk.antiperson.autotorch;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -68,9 +67,9 @@ public class TorchPlacer {
         if (autoTorch.getGlobalConfig().isWorldBlacklisted(getPlayer().getWorld())) {
             return;
         }
-        Location loc = getPlayer().getLocation().clone();
+        Location loc = getPlayer().getLocation();
         int direction = getDirection();
-        for (int i = 0; i < getPlayerConfig().getRadius(); i++) {
+        for (int i = 1; i < getPlayerConfig().getRadius(); i++) {
             Location torchLoc;
             int add = direction <= 2 ? i * -1 : i;
             if (direction % 2 == 1) {
@@ -78,24 +77,27 @@ public class TorchPlacer {
             } else {
                 torchLoc = loc.clone().add(0, 0, add);
             }
-
             Block supporting = torchLoc.clone().subtract(0, 1, 0).getBlock();
             BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
-                Location proposedTorchLocation = torchLoc.clone().add(0, 1, 0);
-                Block adjacent = null;
-                for (BlockFace blockFace : BlockFace.values()) {
-                    if (!blockFace.isCartesian()) continue;
-                    if (blockFace == BlockFace.UP || blockFace == BlockFace.DOWN) continue;
+                Location proposedTorchLocation = torchLoc.add(0, 1, 0);
+                autoTorch.getLogger().info(getPlayer().getFacing().toString());
+                int initial = getPlayer().getFacing().ordinal();
+                int counter = initial + 1 == 4 ? 0 : initial + 1;
+                while (initial != counter) {
+                    BlockFace blockFace = BlockFace.values()[counter];
+                    counter++;
+                    if (counter > 3) {
+                        counter = 0;
+                    }
                     if (blockFace == getPlayer().getFacing().getOppositeFace()) continue;
                     Block relative = proposedTorchLocation.getBlock().getRelative(blockFace);
                     if (!relative.isSolid()) continue;
-                    adjacent = relative;
-                    attachWall = blockFace;
-                }
-                if (adjacent != null) {
-                    supporting = adjacent;
+                    relative.setType(Material.BEDROCK);
+                    supporting = relative;
                     torchLoc = proposedTorchLocation;
+                    attachWall = blockFace.getOppositeFace();
+                    break;
                 }
             }
             // check torch location
@@ -119,7 +121,7 @@ public class TorchPlacer {
                 if (attachWall != BlockFace.UP) {
                     BlockState blockState = torchBlock.getState();
                     Directional directional = (Directional) Material.WALL_TORCH.createBlockData();
-                    directional.setFacing(attachWall.getOppositeFace());
+                    directional.setFacing(attachWall);
                     blockState.setBlockData(directional);
                     blockState.update(true);
                 }
