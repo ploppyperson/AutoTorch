@@ -80,7 +80,7 @@ public class TorchPlacer {
             Block supporting = torchLoc.clone().subtract(0, 1, 0).getBlock();
             BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
-                Location proposedTorchLocation = torchLoc.add(0, 1, 0);
+                Location proposedTorchLocation = torchLoc.clone().add(0, 1, 0);
                 int initial = getPlayer().getFacing().ordinal();
                 int counter = initial + 1 == 4 ? 0 : initial + 1;
                 while (initial != counter) {
