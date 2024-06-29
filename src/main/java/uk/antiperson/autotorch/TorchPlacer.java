@@ -14,10 +14,13 @@ import org.bukkit.inventory.ItemStack;
 import uk.antiperson.autotorch.config.PlayerConfig;
 
 import java.io.IOException;
+import java.util.*;
 
 public class TorchPlacer {
 
-    public static final boolean BLOCKDATA_HAS_STURDY;
+    private static final boolean BLOCKDATA_HAS_STURDY;
+
+    private static final Map<BlockFace, ArrayDeque<BlockFace>> SEQUENTIAL_FACES = new HashMap<>();
 
     static {
         boolean HAS_STURDY1;
@@ -29,6 +32,17 @@ public class TorchPlacer {
             HAS_STURDY1 = false;
         }
         BLOCKDATA_HAS_STURDY = HAS_STURDY1;
+        for (int i = 0; i < 4; i++) {
+            ArrayDeque<BlockFace> faceQueue = new ArrayDeque<>();
+            for (int j = 0; j < 4; j++) {
+                int v = i + j;
+                if (v > 3) {
+                    v -= 4;
+                }
+                faceQueue.add(BlockFace.values()[v]);
+            }
+            SEQUENTIAL_FACES.put(BlockFace.values()[i], faceQueue);
+        }
     }
 
     private final Player player;
@@ -69,6 +83,10 @@ public class TorchPlacer {
         }
         Location loc = getPlayer().getLocation();
         int direction = getDirection();
+        Deque<BlockFace> faces = SEQUENTIAL_FACES.get(player.getFacing());
+        if (getPlayerConfig().getWallSide() == PlayerConfig.WallTorchSide.LEFT) {
+            faces = faces.reversed();
+        }
         for (int i = 1; i < getPlayerConfig().getRadius(); i++) {
             Location torchLoc;
             int add = direction <= 2 ? i * -1 : i;
@@ -81,14 +99,7 @@ public class TorchPlacer {
             BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
                 Location proposedTorchLocation = torchLoc.clone().add(0, 1, 0);
-                int initial = getPlayer().getFacing().ordinal();
-                int counter = initial + 1 == 4 ? 0 : initial + 1;
-                while (initial != counter) {
-                    BlockFace blockFace = BlockFace.values()[counter];
-                    counter++;
-                    if (counter > 3) {
-                        counter = 0;
-                    }
+                for (BlockFace blockFace : faces) {
                     if (blockFace == getPlayer().getFacing().getOppositeFace()) continue;
                     Block relative = proposedTorchLocation.getBlock().getRelative(blockFace);
                     if (!relative.isSolid()) continue;
