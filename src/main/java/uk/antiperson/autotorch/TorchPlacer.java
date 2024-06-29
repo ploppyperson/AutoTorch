@@ -11,10 +11,14 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 import uk.antiperson.autotorch.config.PlayerConfig;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TorchPlacer {
 
@@ -81,20 +85,13 @@ public class TorchPlacer {
         if (autoTorch.getGlobalConfig().isWorldBlacklisted(getPlayer().getWorld())) {
             return;
         }
-        Location loc = getPlayer().getLocation();
-        int direction = getDirection();
         Deque<BlockFace> faces = SEQUENTIAL_FACES.get(player.getFacing());
         if (getPlayerConfig().getWallSide() == PlayerConfig.WallTorchSide.LEFT) {
             faces = faces.reversed();
         }
         for (int i = 1; i < getPlayerConfig().getRadius(); i++) {
-            Location torchLoc;
-            int add = direction <= 2 ? i * -1 : i;
-            if (direction % 2 == 1) {
-                torchLoc = loc.clone().add(add, 0, 0);
-            } else {
-                torchLoc = loc.clone().add(0, 0, add);
-            }
+            Vector displacement = getPlayer().getFacing().getDirection().multiply(i);
+            Location torchLoc = getPlayer().getLocation().add(displacement);
             Block supporting = torchLoc.clone().subtract(0, 1, 0).getBlock();
             BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
@@ -197,21 +194,6 @@ public class TorchPlacer {
             return;
         }
         item.setAmount(item.getAmount() - 1);
-    }
-
-    private int getDirection() {
-        BlockFace blockFace = getPlayer().getFacing();
-        switch (blockFace) {
-            case WEST:
-                return 1;
-            case NORTH:
-                return 2;
-            case EAST:
-                return 3;
-            case SOUTH:
-                return 4;
-        }
-        return 0;
     }
 
     public boolean checkSupportingBlock(Block block, BlockFace face){
