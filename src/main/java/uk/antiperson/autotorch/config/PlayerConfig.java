@@ -28,6 +28,7 @@ public class PlayerConfig extends Configuration {
         getFileConfiguration().save(getFile());
         addToConfigRegistry(new ConfigItem.EnumConfigItem("take-torches-from", TorchLocation.class));
         addToConfigRegistry(new ConfigItem.EnumConfigItem("wall-torch-side", WallTorchSide.class));
+        addToConfigRegistry(new ConfigItem.IntegerConfigItem("wall-torch-height", 1, 5));
     }
 
     public int getRadius() {
@@ -52,6 +53,10 @@ public class PlayerConfig extends Configuration {
 
     public PlayerConfig.WallTorchSide getWallSide() {
         return PlayerConfig.WallTorchSide.valueOf(getFileConfiguration().getString("wall-torch-side"));
+    }
+
+    public int getWallTorchHeight() {
+        return getFileConfiguration().getInt("wall-torch-height");
     }
 
     public boolean isAttachToWalls() {
