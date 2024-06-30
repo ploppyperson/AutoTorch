@@ -95,7 +95,7 @@ public class TorchPlacer {
             Block supporting = torchLoc.clone().subtract(0, 1, 0).getBlock();
             BlockFace attachWall = BlockFace.UP;
             if (getPlayerConfig().isAttachToWalls()) {
-                Location proposedTorchLocation = torchLoc.clone().add(0, 1, 0);
+                Location proposedTorchLocation = torchLoc.clone().add(0, getPlayerConfig().getWallTorchHeight(), 0);
                 for (BlockFace blockFace : faces) {
                     if (blockFace == getPlayer().getFacing().getOppositeFace()) continue;
                     Block relative = proposedTorchLocation.getBlock().getRelative(blockFace);
