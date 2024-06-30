@@ -26,8 +26,8 @@ public class PlayerConfig extends Configuration {
             }
         }
         getFileConfiguration().save(getFile());
-        addToEnumRegistry("take-torches-from", TorchLocation.class);
-        addToEnumRegistry("wall-torch-side", WallTorchSide.class);
+        addToConfigRegistry(new ConfigItem.EnumConfigItem("take-torches-from", TorchLocation.class));
+        addToConfigRegistry(new ConfigItem.EnumConfigItem("wall-torch-side", WallTorchSide.class));
     }
 
     public int getRadius() {
