@@ -28,7 +28,7 @@ public class ConfigGui {
 
     public GuiPage createPage(Player player) {
         Set<String> keys = configuration.getFileConfiguration().getKeys(true);
-        GuiPage guiPage = new GuiPage(player, (keys.size() / 9) + 1);
+        GuiPage guiPage = new GuiPage(player, (int) Math.ceil(keys.size() / 9D));
         for (String key : keys) {
             GuiItem guiItem = generateItem(key);
             if (guiItem == null) {
