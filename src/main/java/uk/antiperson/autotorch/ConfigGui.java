@@ -62,7 +62,7 @@ public class ConfigGui {
             } else {
                 integerGuiItem = new IntegerGuiItem(anInt.getMinBound(), anInt.getMaxBound(), configuration.getFileConfiguration().getInt(key));
             }
-            integerGuiItem.setItemStack(new GuiItemStack(new ItemStack(Material.NETHERITE_PICKAXE), translation.getFileConfiguration().getString(key), Arrays.asList("%size%")));
+            integerGuiItem.setItemStack(new GuiItemStack(new ItemStack(Material.IRON_INGOT), translation.getFileConfiguration().getString(key), Arrays.asList("%size%")));
             integerGuiItem.getItemStack().setOnClick(click -> configuration.getFileConfiguration().set(key, integerGuiItem.getValue()));
             return integerGuiItem;
         }
