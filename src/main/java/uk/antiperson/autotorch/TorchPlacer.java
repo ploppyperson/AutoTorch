@@ -201,9 +201,7 @@ public class TorchPlacer {
             return false;
         }
         if (BLOCKDATA_HAS_STURDY) {
-            if (block.getBlockData().isFaceSturdy(face, BlockSupport.FULL)) {
-                return true;
-            }
+            return block.getBlockData().isFaceSturdy(face, BlockSupport.FULL);
         }
         return block.getType().isSolid();
     }
