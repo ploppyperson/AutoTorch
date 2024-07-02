@@ -4,17 +4,10 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import uk.antiperson.autotorch.AutoTorch;
 
-import java.io.IOException;
-
 public class GlobalConfig extends Configuration {
 
     public GlobalConfig(AutoTorch autoTorch) {
-        super(autoTorch, "global.yml");
-    }
-
-    @Override
-    public void init() throws IOException {
-        super.init(true);
+        super(autoTorch, "global.yml", true);
     }
 
     public int getTaskInterval() {
