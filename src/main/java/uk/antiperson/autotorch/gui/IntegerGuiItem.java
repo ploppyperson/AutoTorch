@@ -52,6 +52,7 @@ public class IntegerGuiItem extends GuiItem {
         ItemStack replaced = super.getItemStack().replaceItem("%size%", getValue() + "");
         if (currentItem != null) {
             currentItem.setItemStack(replaced);
+            setUpdated(false); // is this needed?
             return currentItem;
         }
         currentItem = new GuiItemStack(replaced);
