@@ -26,7 +26,10 @@ public class GuiManager {
     }
 
     public void stopWatching(Player player) {
-        map.remove(player.getUniqueId());
+        Gui gui = map.remove(player.getUniqueId());
+        if (gui != null) {
+            player.closeInventory();
+        }
     }
 
     public Gui getGui(Player player) {
