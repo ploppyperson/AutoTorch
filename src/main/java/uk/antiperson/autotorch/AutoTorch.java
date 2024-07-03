@@ -42,6 +42,14 @@ public final class AutoTorch extends JavaPlugin {
         getCommand("autotorch").setExecutor(new GuiCommand(this));
         getCommand("autotorchadmin").setExecutor(new AdminCommand(this));
         new Metrics(this, 3186);
+        Updater updater = new Updater(this,28904);
+        updater.checkUpdate().whenComplete(((updateResult, throwable) -> {
+            switch (updateResult.getResult()) {
+                case NONE: getLogger().info("No update is currently available."); break;
+                case ERROR: getLogger().info("There was an error while getting the latest update."); break;
+                case AVAILABLE: getLogger().info("A new version is currently available. (" + updateResult.getNewVersion() + ")"); break;
+            }
+        }));
     }
 
     @Override
