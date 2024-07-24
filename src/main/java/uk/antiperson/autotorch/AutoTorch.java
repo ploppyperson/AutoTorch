@@ -24,7 +24,7 @@ public final class AutoTorch extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        getLogger().info("AutoTorch v" + getDescription().getVersion() + " by antiPerson");
+        getLogger().info("AutoTorch v" + getDescription().getVersion() + " by ploppyperson");
         placerManager = new PlacerManager(this);
         globalConfig = new GlobalConfig(this);
         guiManager = new GuiManager(this);

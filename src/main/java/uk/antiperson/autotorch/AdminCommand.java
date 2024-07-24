@@ -19,7 +19,7 @@ public class AdminCommand implements CommandExecutor {
             sender.sendMessage("No permission");
             return false;
         }
-        sender.sendMessage("AutoTorch v" + autoTorch.getDescription().getVersion() + " by antiPerson");
+        sender.sendMessage("AutoTorch v" + autoTorch.getDescription().getVersion() + " by ploppyperson");
         sender.sendMessage("Discord: https://discord.gg/GadyA9j");
         sender.sendMessage("Bugs? Report on GitHub: https://github.com/ploppyperson/AutoTorch");
         return false;
