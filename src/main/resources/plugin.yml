@@ -1,6 +1,7 @@
 name: AutoTorch
 version: ${project.version}
 description: Make torch placing less tedious
+website: https://modrinth.com/plugin/autotorch
 main: uk.antiperson.autotorch.AutoTorch
 api-version: 1.16
 commands:
