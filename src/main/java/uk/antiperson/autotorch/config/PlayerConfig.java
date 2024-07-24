@@ -20,6 +20,7 @@ public class PlayerConfig extends Configuration {
         Configuration defaults = new PlayerDefaultConfig(autoTorch);
         defaults.init();
         super.init();
+        updateDefaults(defaults);
         addToConfigRegistry(new ConfigItem.EnumConfigItem("take-torches-from", TorchLocation.class));
         addToConfigRegistry(new ConfigItem.EnumConfigItem("wall-torch-side", WallTorchSide.class));
         addToConfigRegistry(new ConfigItem.IntegerConfigItem("wall-torch-height", 0, 4));
